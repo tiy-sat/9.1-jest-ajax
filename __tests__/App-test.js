@@ -5,16 +5,63 @@ import App from '../modules/App';
 
 jest.unmock("../modules/App");
 
-describe('Node Heroku boilerplate', () => {
+describe('User signup app', () => {
+  var appRendered;
 
-  it('contains my name', () => {
-    // This places our component into our test to find off of
-    var appRendered = TestUtils.renderIntoDocument(
+  beforeEach(()=>{
+    appRendered = TestUtils.renderIntoDocument(
       <App/>
     );
-    // find h1 on page
-    var heading = TestUtils.findRenderedDOMComponentWithClass(appRendered, "heading");
-    // assert it has text
-    expect(heading.textContent).toEqual("Your Name");
+  });
+
+  it('contains username input', ()=> {
+    var usernameInput = TestUtils.findRenderedDOMComponentWithClass(appRendered, "form__username");
+    expect(usernameInput).toBeDefined();
+  });
+
+  it('contains password input', ()=> {
+    var passwordInput = TestUtils.findRenderedDOMComponentWithClass(appRendered, "form__password");
+    expect(passwordInput).toBeDefined();
+  });
+
+  it("when users submits form data is sent", ()=>{
+    // find form
+    var formSignup = TestUtils.findRenderedDOMComponentWithClass(appRendered, "form--signup");
+    var e = {
+      preventDefault: ()=>{ console.log('RUNNING');}
+    };
+    var Serialize = jest.fn(()=>{
+
+    });
+
+    spyOn(appRendered, "handleUserSignup").and.callThrough();
+    spyOn(appRendered, "sendSignupRequest");
+    spyOn(appRendered, "serializeFormData");
+    spyOn(e, "preventDefault");
+    // spyOn(appRendered, "Serialize");
+
+    appRendered.handleUserSignup(e);
+    // ensure method is called with data serialized
+    expect(e.preventDefault).toBeCalled();
+    // expect(Serialize).toBeCalled();
+    expect(appRendered.serializeFormData).toBeCalled();
+    expect(appRendered.sendSignupRequest).toBeCalled();
+  });
+
+  it("on successful post sets state for username", ()=>{
+    var responseData = {
+      _id: "2o3uiksjefokjas",
+      username: "professor xavier",
+      password: "jeangrey1"
+    }
+
+    spyOn(appRendered, "handlePostSuccess").and.callThrough();
+    spyOn(appRendered, "setState");
+
+    appRendered.handlePostSuccess(responseData);
+
+    expect(appRendered.setState).toBeCalledWith({
+      username: responseData.username
+    });
   });
 });
