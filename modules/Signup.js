@@ -14,7 +14,7 @@ export default React.createClass({
   },
   sendSignupRequest(dataToSend){
     $.post({
-      url: "https://tiny-tiny.herokuapp.com/collections/javanderslice-9point1-users1",
+      url: "https://tiny-tiny.herokuapp.com/collections/javanderslice-9point1-users",
       data: dataToSend,
       success: this.handlePostSuccess
     })

@@ -24,42 +24,32 @@ describe('User signup app', () => {
     expect(passwordInput).toBeDefined();
   });
 
-  it("when users submits form data is sent", ()=>{
-    // find form
-    var formSignup = TestUtils.findRenderedDOMComponentWithClass(signupRendered, "form--signup");
-    var e = {
-      preventDefault: ()=>{ console.log('RUNNING');}
-    };
-    var Serialize = jest.fn(()=>{ });
-    // var Router = jest.fn(()=>{ });
+  describe("when signup form is submitted", ()=>{
+    var e;
+    
+    beforeEach(()=>{
+      e = {
+        preventDefault: ()=>{ }
+      };
 
-    spyOn(signupRendered, "handleUserSignup").and.callThrough();
-    spyOn(signupRendered, "sendSignupRequest");
-    spyOn(signupRendered, "serializeFormData");
-    spyOn(e, "preventDefault");
-    // spyOn(signupRendered, "Serialize");
+      spyOn(e, "preventDefault");
+      spyOn(signupRendered, "handleUserSignup").and.callThrough();
+      spyOn(signupRendered, "sendSignupRequest");
+      spyOn(signupRendered, "serializeFormData");
 
-    signupRendered.handleUserSignup(e);
-    // ensure method is called with data serialized
-    expect(e.preventDefault).toBeCalled();
-    // expect(Serialize).toBeCalled();
-    expect(signupRendered.serializeFormData).toBeCalled();
-    expect(signupRendered.sendSignupRequest).toBeCalled();
-  });
+      signupRendered.handleUserSignup(e);
+    });
 
-  it("on successful post sets state for username", ()=>{
-    var responseData = {
-      _id: "2o3uiksjefokjas",
-      username: "professor xavier",
-      password: "jeangrey1"
-    }
+    it("prevents default behavior", ()=>{
+      expect(e.preventDefault).toBeCalled();
+    });
 
-    spyOn(signupRendered, "handlePostSuccess").and.callThrough();
-    // spyOn(Router.browserHistory, "push");
+    it("calls to serialize form data", ()=>{
+      expect(signupRendered.serializeFormData).toBeCalled();
+    });
 
-    signupRendered.handlePostSuccess(responseData);
-    // expect(Router.browserHistory).toBeCalled();
-
-
+    it("calls send signup request", ()=>{
+      expect(signupRendered.sendSignupRequest).toBeCalled();
+    });
   });
 });
