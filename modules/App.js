@@ -4,7 +4,9 @@ import Signup from './Signup'
 export default React.createClass({
   render() {
     return (
-      <Signup/>
+      <section>
+        <Signup />
+      </section>
     )
   }
 });

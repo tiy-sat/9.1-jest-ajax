@@ -1,6 +1,7 @@
 import React from 'react'
 import $ from 'jquery'
 import Serialize from 'form-serialize'
+import { Router, browserHistory } from "react-router"
 
 export default React.createClass({
   getInitialState(){
@@ -9,19 +10,17 @@ export default React.createClass({
     }
   },
   handlePostSuccess(resp){
-    this.setState({
-      username: resp.username
-    });
+    browserHistory.push(`/chatroom/${resp._id}`);
   },
   sendSignupRequest(dataToSend){
     $.post({
-      url: "https://tiny-tiny.herokuapp.com/collections/javanderslice-9point1-users",
+      url: "https://tiny-tiny.herokuapp.com/collections/javanderslice-9point1-users1",
       data: dataToSend,
       success: this.handlePostSuccess
     })
   },
   serializeFormData(form){
-    return serializedData = Serialize(form, {hash: true});
+    return Serialize(form, {hash: true});
   },
   handleUserSignup(e){
     e.preventDefault();

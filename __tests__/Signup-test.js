@@ -30,9 +30,8 @@ describe('User signup app', () => {
     var e = {
       preventDefault: ()=>{ console.log('RUNNING');}
     };
-    var Serialize = jest.fn(()=>{
-
-    });
+    var Serialize = jest.fn(()=>{ });
+    // var Router = jest.fn(()=>{ });
 
     spyOn(signupRendered, "handleUserSignup").and.callThrough();
     spyOn(signupRendered, "sendSignupRequest");
@@ -56,12 +55,11 @@ describe('User signup app', () => {
     }
 
     spyOn(signupRendered, "handlePostSuccess").and.callThrough();
-    spyOn(signupRendered, "setState");
+    // spyOn(Router.browserHistory, "push");
 
     signupRendered.handlePostSuccess(responseData);
+    // expect(Router.browserHistory).toBeCalled();
 
-    expect(signupRendered.setState).toBeCalledWith({
-      username: responseData.username
-    });
+
   });
 });
